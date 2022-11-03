@@ -1,0 +1,10 @@
+{
+  "files": {
+    "main.js": "/ecommerce-frontend-react/static/js/main.b2b33b0e.js",
+    "index.html": "/ecommerce-frontend-react/index.html",
+    "main.b2b33b0e.js.map": "/ecommerce-frontend-react/static/js/main.b2b33b0e.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.b2b33b0e.js"
+  ]
+}
