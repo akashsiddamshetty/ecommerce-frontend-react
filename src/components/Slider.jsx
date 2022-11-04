@@ -3,12 +3,16 @@ import ArrowBackIosNewOutlinedIcon from "@mui/icons-material/ArrowBackIosNewOutl
 import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
 import { useEffect, useState } from "react";
 import { sliderItems } from "../Data";
+import { mobile } from "../responsive";
 const Container = styled.div`
   height: 100vh;
   width: 100%;
   display: flex;
   position: relative;
   overflow: hidden;
+  ${mobile({
+    display:'none'
+  })}
 `;
 const Arrow = styled.div`
   width: 50px;
