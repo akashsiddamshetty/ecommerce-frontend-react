@@ -6,6 +6,11 @@ import Newsletter from "../components/Newsletter";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { mobile } from "../responsive";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { publicRequest } from "../requestMethods";
+import { useDispatch } from "react-redux";
+import { addProduct } from "../redux/cartRedux";
 const Wrapper = styled.div`
   padding: 50px;
   display: flex;
@@ -119,51 +124,89 @@ const Button = styled.button`
 `;
 
 const Product = () => {
+  let { productId } = useParams();
+  const [product, setProduct] = useState({});
+  const [quantity, setQuantity] = useState(1);
+  const [color, setColor] = useState("");
+  const [size, setSize] = useState("");
+  const dispatch = useDispatch();
+  const handleQuantity = (type) => {
+    if (type === "dec") {
+      quantity > 1 && setQuantity(quantity - 1);
+    } else {
+      setQuantity(quantity + 1);
+    }
+  };
+
+  const handleAddToCart = () => {
+    dispatch(addProduct({ ...product, quantity, color, size }));
+  };
+
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const res = await publicRequest.get("/products/find/" + productId);
+        setProduct(res.data);
+      } catch (error) {}
+    };
+    getProduct();
+  }, [productId]);
+
   return (
     <>
       <Announcement />
       <Navbar />
-      <Wrapper>
-        <ImageContainer>
-          <Image src="https://img.freepik.com/free-photo/jeans_1203-8093.jpg?w=2000" />
-        </ImageContainer>
-        <InfoContainer>
-          <Title>Denim Jeans</Title>
-          <Desc>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia
-            dolorum voluptatibus exercitationem saepe cum fuga non ipsam animi
-            deserunt, illum odio laudantium delectus incidunt perferendis iste
-            veritatis quam a facere?
-          </Desc>
-          <Price>$20</Price>
-          <FilterContainer>
-            <Filter>
-              <FilterTitle>Color</FilterTitle>
-              <FilterColor color="black" />
-              <FilterColor color="darkblue" />
-              <FilterColor color="gray" />
-            </Filter>
-            <Filter>
-              <FilterTitle>Size</FilterTitle>
-              <FilterSize>
-                <FilterSizeOption>XS</FilterSizeOption>
-                <FilterSizeOption>S</FilterSizeOption>
-                <FilterSizeOption>M</FilterSizeOption>
-                <FilterSizeOption>L</FilterSizeOption>
-                <FilterSizeOption>XL</FilterSizeOption>
-              </FilterSize>
-            </Filter>
-          </FilterContainer>
-          <AddContainer>
-            <AmountContainer>
-              <RemoveIcon />
-              <Amount>1</Amount>
-              <AddIcon />
-            </AmountContainer>
-            <Button>Add To Cart</Button>
-          </AddContainer>
-        </InfoContainer>
-      </Wrapper>
+      {Object.keys(product).length === 0 ? (
+        "Loading..."
+      ) : (
+        <Wrapper>
+          <ImageContainer>
+            <Image src={product?.img} />
+          </ImageContainer>
+          <InfoContainer>
+            <Title>{product.title}</Title>
+            <Desc>{product.desc}</Desc>
+            <Price>${product.price}</Price>
+            <FilterContainer>
+              <Filter>
+                <FilterTitle>Color</FilterTitle>
+                {product?.color?.map((color, index) => {
+                  return (
+                    <FilterColor
+                      color={color}
+                      key={index}
+                      onClick={() => setColor(color)}
+                    />
+                  );
+                })}
+              </Filter>
+              <Filter>
+                <FilterTitle>Size</FilterTitle>
+                <FilterSize onChange={(e) => setSize(e.target.value)}>
+                  {product?.size?.map((size, index) => {
+                    return (
+                      <FilterSizeOption
+                        key={index}
+                        value={size}
+                      >
+                        {size.toUpperCase()}
+                      </FilterSizeOption>
+                    );
+                  })}
+                </FilterSize>
+              </Filter>
+            </FilterContainer>
+            <AddContainer>
+              <AmountContainer>
+                <RemoveIcon onClick={() => handleQuantity("dec")} />
+                <Amount>{quantity}</Amount>
+                <AddIcon onClick={() => handleQuantity("inc")} />
+              </AmountContainer>
+              <Button onClick={() => handleAddToCart()}>Add To Cart</Button>
+            </AddContainer>
+          </InfoContainer>
+        </Wrapper>
+      )}
       <Newsletter />
       <Footer />
     </>

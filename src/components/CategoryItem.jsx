@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { mobile } from "../responsive";
 
@@ -39,14 +40,16 @@ const Button = styled.button`
   font-weight: 600;
 `;
 const CategoryItem = ({ item }) => {
-  const { id, title, img } = item;
+  const { id, title, img, cat } = item;
   return (
     <Container key={id}>
-      <Image src={img} />
-      <Info>
-        <Title>{title.toUpperCase()}</Title>
-        <Button>SHOP NOW</Button>
-      </Info>
+      <Link to={`/ecommerce-frontend-react/products/${cat}`}>
+        <Image src={img} />
+        <Info>
+           <Title>{title.toUpperCase()}</Title>
+          <Button>SHOP NOW</Button>
+        </Info>
+      </Link>
     </Container>
   );
 };

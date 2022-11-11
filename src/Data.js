@@ -33,17 +33,21 @@ export const categories = [
     {
         id: 1,
         img: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8c2hpcnRzfGVufDB8fDB8fA%3D%3D&w=1000&q=80',
-        title: 'shirt style!'
+        title: 'shirt style!',
+        cat: 'shirts',
     },
     {
         id: 2,
         img: 'https://www.fashionbeans.com/wp-content/uploads/2018/08/loungimg-1.jpg',
-        title: 'Loungewear love'
+        title: 'Loungewar love',
+        cat: 'loungewear',
+
     },
     {
         id: 3,
         img: 'https://i.pinimg.com/736x/2a/3e/1b/2a3e1b18a27e5d086c9bb3798d5f375a--biker-wear-riding-gear.jpg',
-        title: 'light jackets'
+        title: 'light jackets',
+        cat: 'jackets',
     }
 ]
 
