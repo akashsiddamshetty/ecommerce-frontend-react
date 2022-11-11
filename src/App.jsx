@@ -9,12 +9,12 @@ import { Routes, Route } from "react-router-dom";
 const App = () => {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/product" element={<Product />} />
-      <Route path="/productlist" element={<ProductList />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/cart" element={<Cart />} />
+      <Route path="/ecommerce-frontend-react" element={<Home />} />
+      <Route path="/ecommerce-frontend-react/product" element={<Product />} />
+      <Route path="/ecommerce-frontend-react/productlist" element={<ProductList />} />
+      <Route path="/ecommerce-frontend-react/login" element={<Login />} />
+      <Route path="/ecommerce-frontend-react/register" element={<Register />} />
+      <Route path="/ecommerce-frontend-react/cart" element={<Cart />} />
     </Routes>
   );
 };
