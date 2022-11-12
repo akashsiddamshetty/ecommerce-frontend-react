@@ -1,4 +1,7 @@
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { login } from "../redux/apiCalls";
 import { mobile } from "../responsive";
 const Container = styled.div`
   width: 100vw;
@@ -54,15 +57,43 @@ const Link = styled.a`
   text-decoration: underline;
   cursor: pointer;
 `;
+
+const Error = styled.span`
+  color: red;
+`;
+
 const Login = () => {
+  const initialValue = { username: "", password: "" };
+  const [formValues, setFormValues] = useState(initialValue);
+  const dispatch = useDispatch();
+  const { isFetching, error } = useSelector((state) => state.user);
+  const handleInput = (e) => {
+    const { name, value } = e.target;
+    setFormValues({ ...formValues, [name]: value });
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    login(dispatch, formValues);
+  };
   return (
     <Container>
       <Wrapper>
         <Title>SING IN</Title>
-        <Form>
-          <Input placeholder="User name" />
-          <Input placeholder="Password" />
-          <Button>CREATE</Button>
+        <Form onSubmit={handleSubmit}>
+          <Input
+            name="username"
+            placeholder="User name"
+            onChange={handleInput}
+          />
+          <Input
+            name="password"
+            placeholder="Password"
+            onChange={handleInput}
+          />
+          <Button type="submit" disabled={isFetching}>
+            {isFetching ? "Please wait..." : "Sign in"}
+          </Button>
+          {error && <Error>Something went wrong</Error>}
           <Link>FORGOT PASSWORD?</Link>
           <Link>CREATE A NEW ACCOUNT</Link>
         </Form>
